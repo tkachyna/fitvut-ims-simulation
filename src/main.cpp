@@ -10,6 +10,7 @@
 #define ONE_SOLAR_PANEL_PRICE 14595 // CosmoSOL 8253L
 #define PUMP 12753 // Wilo Yonos Para ST 15-130/7
 #define EXPANSION_TANK 1462 // COSMO  MAG-S 18L 
+#define EL_ENERGY_PRICE_KWH 4.259
 
 class WaterConsumption {
     
@@ -52,7 +53,7 @@ class WaterConsumption {
         }
 };
 
-class SolarPanel {
+class SolarCollector {
 
     public:
     
@@ -68,7 +69,7 @@ class SolarPanel {
     float p;
     int n = 31;
 
-    SolarPanel(int n, int t_km, std::vector<int>G_TM,  std::vector<int>H_t_den)
+    SolarCollector(int n, int t_km, std::vector<int>G_TM,  std::vector<int>H_t_den)
     {
         this->numberOfCollectors = n;
         this->t_km = t_km;
@@ -101,55 +102,62 @@ int main(int argc, char **argv)
 {      
     int numOfPanels = 4;
     int investmentCosts = ONE_SOLAR_PANEL_PRICE * numOfPanels + PUMP + EXPANSION_TANK * 2;
-    float elPriceKWH = 4.259; // in CZK
 
     WaterConsumption cons(0.1);
 
     float WconsumptionMonth = cons.countOneMonth(31);
     std::vector<float> WconsumptionYear = cons.countOneYear();
 
-    SolarPanel panel(31, 35, Azimuth0_Slope0, radiationSumInclinedSurface_0);
-    panel.countP();
+    SolarCollector collector(31, 35, Azimuth0_Slope0, radiationSumInclinedSurface_0);
+    collector.countP();
 
-    std::vector<int> gainsYear;
+
+    std::vector<float> theoreticallyUsableGains;
+
+    // this for loop counts theoretically usable gains from solar collectors in a year 
     for (int i = 0; i < 12; ++i)
     {
-        float efficiency = panel.countCollectorEfficiencyForOneMonth(i);
-        float gains = panel.countUsableGainsForOneMonth(efficiency, i);
-        std::cout << "Mesic: "<< i << " " << gains << std::endl;   
-        gainsYear.insert(gainsYear.end(), gains);
+        float solarCollectorEfficiency = collector.countCollectorEfficiencyForOneMonth(i);
+        float solarCollectorGains = collector.countUsableGainsForOneMonth(solarCollectorEfficiency, i);
+        // std::cout << "Month: "<< i << " " << solarCollectorGains << std::endl;  // DEBUG PRINT 
+        theoreticallyUsableGains.insert(theoreticallyUsableGains.end(), solarCollectorGains);
     }
     
-    std::vector<int> usableGainsOneYear;
-    std::vector<int> totalHeatConsumption;
-    std::vector<int> difference;
-
-    std::vector<int>::iterator UGit;
-    std::vector<int>::iterator THCit = totalHeatConsumption.begin();
-
-
-    for (UGit = usableGainsOneYear.begin(); UGit != usableGainsOneYear.end(); ++UGit)
+    
+    std::vector<float> actualUsableGains;
+   
+    std::vector<float>::iterator TUGit; // iterator for theoretically usable gains of solar energy gains
+    std::vector<float>::iterator THNit = WconsumptionYear.begin(); // iterator for Total Heat Nedded 
+      
+    // Qss,u = min (Qk,u; Qp,c)
+    // this loop takes minimum of two numbers (generated energy, energy needed for water heating) 
+    // and insert into a vector, which means actual usable solar energy gains (Qss,u)
+    for (TUGit = theoreticallyUsableGains.begin(); TUGit != theoreticallyUsableGains.end(); ++TUGit)
     {
-        difference.insert(difference.end(), (*THCit - *UGit) * elPriceKWH);
-        ++THCit;
+        actualUsableGains.insert(actualUsableGains.begin(), std::min(*TUGit, *THNit));
+    }
+
+
+    std::vector<float> difference;
+    std::vector<float>::iterator AUGit; // iterator for actual usable gains of solar energy gains
+    THNit = WconsumptionYear.begin();
+
+    // this for loop counts calculates the difference between the actual usable gains and total heed needed
+    for (AUGit = actualUsableGains.begin(); AUGit != actualUsableGains.end(); ++AUGit)
+    {
+        difference.insert(difference.end(), (*THNit - *AUGit));
+        ++THNit;
     }
 
     
     
-    int elPriceWithPanels = std::accumulate(difference.begin(), difference.end(), 0);
+    float elPriceWithPanels = std::accumulate(difference.begin(), difference.end(), 0) * EL_ENERGY_PRICE_KWH;
 
-    int elPriceWithoutPanels = std::accumulate(totalHeatConsumption.begin(), totalHeatConsumption.end(), 0) * 6;
+    float  elPriceWithoutPanels = std::accumulate(WconsumptionYear.begin(), WconsumptionYear.end(), 0) * EL_ENERGY_PRICE_KWH;
 
-    int yearSavings = elPriceWithoutPanels - elPriceWithPanels;
+    float yearSavings = elPriceWithoutPanels - elPriceWithPanels;
 
-    int returnOfInvestments = investmentCosts / yearSavings; 
-
-     /**
-     * Investice do solarnich panelu
-     * nakladu
-     * kdy se to vyplati
-     */
-
+    float returnOfInvestments = investmentCosts / yearSavings; 
 
     return 0;
 }

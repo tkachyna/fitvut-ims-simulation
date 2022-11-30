@@ -30,10 +30,10 @@ extern std::vector<int> Azimuth45_Slope75;
 extern std::vector<int> Azimuth45_Slope90;
 
 
-extern std::vector<int>radiationSumInclinedSurface_0;
-extern std::vector<int>radiationSumInclinedSurface_15;
-extern std::vector<int>radiationSumInclinedSurface_30;
-extern std::vector<int>radiationSumInclinedSurface_45;
-extern std::vector<int>radiationSumInclinedSurface_60;
-extern std::vector<int>radiationSumInclinedSurface_75;
-extern std::vector<int>radiationSumInclinedSurface_90;
+extern std::vector<float>radiationSumInclinedSurface_0;
+extern std::vector<float>radiationSumInclinedSurface_15;
+extern std::vector<float>radiationSumInclinedSurface_30;
+extern std::vector<float>radiationSumInclinedSurface_45;
+extern std::vector<float>radiationSumInclinedSurface_60;
+extern std::vector<float>radiationSumInclinedSurface_75;
+extern std::vector<float>radiationSumInclinedSurface_90;

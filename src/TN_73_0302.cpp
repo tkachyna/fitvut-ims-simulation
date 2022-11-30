@@ -31,11 +31,11 @@ std::vector<int> Azimuth45_Slope60 = {353,409,442,430,420,416,413,419,425,407,36
 std::vector<int> Azimuth45_Slope75 = {350,392,398,363,339,330,331,347,374,381,353,329};
 std::vector<int> Azimuth45_Slope90 = {327,352,333,279,242,229,233,259,303,334,325,310};
 
-std::vector<int>radiationSumInclinedSurface_0 = {27,48,99,133,185,201,196,159,111,54,26,19,54,26,19};
-std::vector<int>radiationSumInclinedSurface_15 = {27,56,112,146,199,214,210,175,128,68,32,22,68,32,22};
-std::vector<int>radiationSumInclinedSurface_30 = {38,64,122,154,208,219,220,118,140,78,36,25,78,36,25};
-std::vector<int>radiationSumInclinedSurface_45 = {41,70,125,156,200,213,217,186,145,85,39,26,85,39,26};
-std::vector<int>radiationSumInclinedSurface_60 = {42,72,124,145,181,191,191,174,142,89,41,27,89,41,27};
-std::vector<int>radiationSumInclinedSurface_75 = {43,72,119,130,150,152,157,153,136,89,42,27,89,42,27};
-std::vector<int>radiationSumInclinedSurface_90 = {43,69,108,110,113,111,118,128,123,84,41,26,84,41,26};
+std::vector<float>radiationSumInclinedSurface_0 = {27,48,99,133,185,201,196,159,111,54,26,19,54,26,19};
+std::vector<float>radiationSumInclinedSurface_15 = {27,56,112,146,199,214,210,175,128,68,32,22,68,32,22};
+std::vector<float>radiationSumInclinedSurface_30 = {38,64,122,154,208,219,220,118,140,78,36,25,78,36,25};
+std::vector<float>radiationSumInclinedSurface_45 = {41,70,125,156,200,213,217,186,145,85,39,26,85,39,26};
+std::vector<float>radiationSumInclinedSurface_60 = {42,72,124,145,181,191,191,174,142,89,41,27,89,41,27};
+std::vector<float>radiationSumInclinedSurface_75 = {43,72,119,130,150,152,157,153,136,89,42,27,89,42,27};
+std::vector<float>radiationSumInclinedSurface_90 = {43,69,108,110,113,111,118,128,123,84,41,26,84,41,26};
 

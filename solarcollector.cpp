@@ -1,7 +1,7 @@
 /**
 *   IMS Project - solar collectors and their efficiency
 *   
-*   @author Tadeáš Kachyňa, <xkachy00@stud.fit.vutbr.cz>
+*   @author Tadeáš Kachyňa, <xkachy00@stud.fit.vutbr.cz>, Lucia Makaiova , <xmakai00@stud.fit.vutbr.cz>
 *   @date 4/12/2022
 *   @file solarcollector.cpp
 *
